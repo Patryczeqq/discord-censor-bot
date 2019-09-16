@@ -2,22 +2,17 @@ import discord
 import os
 import re
 
-print("Setting up...")
-
 bannedWords = ["bruh"]
-exemptChats = ["bruh-chat"]
+exemptChannels = ["bruh-chat"]
 client = discord.Client()
 
 @client.event
 async def on_message(message):
-    if message.channel.name != "bruh":
+    print(message.channel.name)
+    if message.channel.name not in exemptChannels:
         text = re.sub("[^a-z]","",message.content.lower())
         if any(bannedWord in text for bannedWord in bannedWords):
             await message.delete()
 
-print("Setup complete")
-
 token = os.environ.get("DISCORD_BOT_SECRET")
-print("test")
 client.run(token)
-print("done")
