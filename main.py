@@ -2,7 +2,7 @@ import discord
 import os
 import re
 
-bannedWords = ["bruh"]
+bannedWords = ["fortnite", "smeltery"]
 exemptChannels = ["bruh-chat"]
 client = discord.Client()
 
