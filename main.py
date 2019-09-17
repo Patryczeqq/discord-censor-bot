@@ -14,7 +14,7 @@ async def on_message(message):
         if any(bannedWord in text for bannedWord in bannedWords):
             await message.delete()
     if message.content.lower() == "is 4.2 inches enough?":
-        message.channel.send("https://cdn.discordapp.com/attachments/148491526073221120/622438991924297738/unknown.png")
+        await message.channel.send("https://cdn.discordapp.com/attachments/148491526073221120/622438991924297738/unknown.png")
 
 token = os.environ.get("DISCORD_BOT_SECRET")
 client.run(token)
