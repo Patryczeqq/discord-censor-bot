@@ -13,7 +13,7 @@ async def on_message(message):
         text = re.sub("[^a-z]","",message.content.lower())
         if any(bannedWord in text for bannedWord in bannedWords):
             await message.delete()
-    if re.match("is\s\d+\.*\d*\sinches\senough\?",message.content.lower()):
+    if re.match("is\s\d+\.?\d*\sinch(es)?\senough\??",message.content.lower()):
         await message.channel.send("https://cdn.discordapp.com/attachments/148491526073221120/622438991924297738/unknown.png")
 
 token = os.environ.get("DISCORD_BOT_SECRET")
