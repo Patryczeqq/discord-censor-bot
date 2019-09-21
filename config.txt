@@ -1,0 +1,6 @@
+#Banned words
+fortnite
+smeltery
+#Exempt channels
+bruh-chat
+#Reminders
