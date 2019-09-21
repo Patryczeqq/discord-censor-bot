@@ -32,8 +32,8 @@ client = discord.Client()
 
 @client.event
 async def on_message(message):
-    print(message.channel.name)
-    
+    if message.content.startswith(prefix):
+        await message.channel.send("Command detected: " + message.content[len(prefix):])
     elif message.channel.name not in exemptChannels:
         text = re.sub("[^a-z]","",message.content.lower())
         if any(bannedWord in text for bannedWord in bannedWords):
