@@ -2,8 +2,26 @@ import discord
 import os
 import re
 
-bannedWords = ["fortnite", "smeltery"]
-exemptChannels = ["bruh-chat"]
+def loadConfig(*configs):
+    configs = list(configs)
+    output = []
+    for config in configs:
+        with open("config.txt") as file:
+            line = file.readline()
+            while line != "":
+                if line[0] == "#" and line[1:-1] == config:
+                    line = file.readline()
+                    settings = []
+                    while line[0] != "#":
+                        settings.append(line[:-1])
+                        line = file.readline()
+                    output.append(settings)
+                    line = ""
+                else:
+                    line = file.readline()
+    return output
+
+bannedWords, exemptChannels = loadConfig("banned words", "exempt channels")
 client = discord.Client()
 
 @client.event
