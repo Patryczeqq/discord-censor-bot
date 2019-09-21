@@ -1,6 +1,6 @@
-#Banned words
+#banned words
 fortnite
 smeltery
-#Exempt channels
+#exempt channels
 bruh-chat
-#Reminders
+#reminders
