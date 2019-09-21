@@ -3,4 +3,4 @@ fortnite
 smeltery
 #exempt channels
 bruh-chat
-#reminders
+#prefix=bob!
