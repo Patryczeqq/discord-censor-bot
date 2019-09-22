@@ -34,12 +34,12 @@ client = discord.Client()
 async def on_message(message):
     if message.content.startswith(prefix):
         await message.channel.send("Command detected: " + message.content[len(prefix):])
+    elif re.match("is(\s\d+\.?\d*\sinch(es)?\senough\??|.+\stoo\s(short|small)\??)",message.content.lower()):
+        await message.channel.send("https://cdn.discordapp.com/attachments/148491526073221120/622438991924297738/unknown.png")
     elif message.channel.name not in exemptChannels:
         text = re.sub("[^a-z]","",message.content.lower())
         if any(bannedWord in text for bannedWord in bannedWords):
             await message.delete()
-    elif re.match("is(\s\d+\.?\d*\sinch(es)?\senough\??|.+\stoo\s(short|small)\??)",message.content.lower()):
-        await message.channel.send("https://cdn.discordapp.com/attachments/148491526073221120/622438991924297738/unknown.png")
 
 token = os.environ.get("DISCORD_BOT_SECRET")
 client.run(token)
