@@ -34,7 +34,7 @@ client = discord.Client()
 async def on_message(message):
     if message.content.startswith(prefix):
         await message.channel.send("Command detected: " + message.content[len(prefix):])
-    elif re.match("is(\s\d+\.?\d*\sinch(es)?\senough\??|.+\stoo\s(short|small)\??)",message.content.lower()):
+    elif re.match("is.+(too\s(short|small)|enough)\??)",message.content.lower()):
         await message.channel.send("https://cdn.discordapp.com/attachments/148491526073221120/622438991924297738/unknown.png")
     elif message.channel.name not in exemptChannels:
         text = re.sub("[^a-z]","",message.content.lower())
