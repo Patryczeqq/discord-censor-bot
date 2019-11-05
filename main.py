@@ -10,7 +10,7 @@ def loadConfig(*configs):
             line = file.readline()
             while line != "":
                 if line[:line.index("=")] == config:
-                    data = line[line.index("=")].split(",")
+                    data = line[line.index("=")+1:-1].split(",")
                     if len(data) == 1:
                         data = data[0]
                     elif len(data) == 0:
