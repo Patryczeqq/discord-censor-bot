@@ -19,8 +19,8 @@ def loadConfig(*configs):
                     break
                 else:
                     line = file.readline()
-        else:
-            output.append(None)
+            else:
+                output.append(None)
     return output
 
 bannedWords, exemptChannels, prefix = loadConfig("banned words", "exempt channels", "prefix")
