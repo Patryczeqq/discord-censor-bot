@@ -1,6 +1,7 @@
 import discord
 import os
 import re
+from time import gmtime, localtime
 
 def loadConfig(*configs):
     configs = list(configs)
@@ -9,12 +10,14 @@ def loadConfig(*configs):
         with open("config.txt") as file:
             line = file.readline()
             while line != "":
-                if line[:line.index("=")] == config:
-                    data = line[line.index("=")+1:-1].split(",")
-                    if len(data) == 1:
-                        data = data[0]
-                    elif len(data) == 0:
+                if line[:line.index("=")] == config[0]:
+                    data = line[line.index("=")+1:-1]
+                    if len(data) == 0:
                         data = None
+                    elif config[1] == "list":
+                        data = data.split(",")
+                    elif config[1] == "integer":
+                        data = int(data)
                     output.append(data)
                     break
                 else:
@@ -23,19 +26,23 @@ def loadConfig(*configs):
                 output.append(None)
     return output
 
-bannedWords, exemptChannels, prefix = loadConfig("banned words", "exempt channels", "prefix")
-client = discord.Client()
-
 @client.event
 async def on_message(message):
     if message.content.startswith(prefix):
         await message.channel.send("Command detected: " + message.content[len(prefix):])
-    elif re.match("is.+(too\s(short|small)|enough)\??)",message.content.lower()):
-        await message.channel.send("https://cdn.discordapp.com/attachments/148491526073221120/622438991924297738/unknown.png")
+    elif re.match("what (is the )?time (is it)?\??",message.content.lower()):
+        time = localtime()
+        await message.channel.send(f"The current time is {time[3]}:{time[4]}:{time[5]}")
+    elif re.match("what (is the )?(day|date)( is it)?( today)?\??",message.content.lower()):
+        time = localtime()
+        days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        await message.channel.send(f"Today is {days[time[6]]} {time[2]}/{time[1]}/{time[0]}")
     elif message.channel.name not in exemptChannels:
         text = re.sub("[^a-z]","",message.content.lower())
         if any(bannedWord in text for bannedWord in bannedWords):
             await message.delete()
 
+bannedWords, exemptChannels, prefix = loadConfig(("banned words", "list"), ("exempt channels", "list"), ("prefix", "string"))
+client = discord.Client()
 token = os.environ.get("DISCORD_BOT_SECRET")
 client.run(token)
