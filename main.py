@@ -9,22 +9,18 @@ def loadConfig(*configs):
         with open("config.txt") as file:
             line = file.readline()
             while line != "":
-                if line[0] == "#":
-                    if line[1:-1] == config:
-                        line = file.readline()
-                        settings = []
-                        while line[0] != "#":
-                            settings.append(line[:-1])
-                            line = file.readline()
-                        output.append(settings)
-                        line = ""
-                    elif config in line:
-                        output.append(line[line.find("=")+1:-1])
-                        line = ""
-                    else:
-                        line = file.readline()
+                if line[:line.index("=")] == config:
+                    data = line[line.index("=")].split(",")
+                    if len(data) == 1:
+                        data = data[0]
+                    elif len(data) == 0:
+                        data = None
+                    output.append(data)
+                    break
                 else:
                     line = file.readline()
+        else:
+            output.append(None)
     return output
 
 bannedWords, exemptChannels, prefix = loadConfig("banned words", "exempt channels", "prefix")
