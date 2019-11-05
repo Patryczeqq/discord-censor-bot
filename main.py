@@ -1,7 +1,9 @@
 import discord
 import os
 import re
-from time import gmtime, localtime
+from time import localtime
+
+client = discord.Client()
 
 def loadConfig(*configs):
     configs = list(configs)
@@ -43,6 +45,5 @@ async def on_message(message):
             await message.delete()
 
 bannedWords, exemptChannels, prefix = loadConfig(("banned words", "list"), ("exempt channels", "list"), ("prefix", "string"))
-client = discord.Client()
 token = os.environ.get("DISCORD_BOT_SECRET")
 client.run(token)
