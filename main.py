@@ -48,6 +48,11 @@ def saveConfig(*configs):
     open("config.txt", "w").write("".join(data))
 
 @client.event
+async def on_member_remove(member):
+    if member.guild.system_channel:
+        await member.guild.system_channel.send(member.nick + " has left the server")
+
+@client.event
 async def on_message(message):
     bannedWords, exemptChannels, prefix = loadConfig(("banned words", "list"), ("exempt channels", "list"), ("prefix", "string"))
     if message.content.startswith(prefix):
