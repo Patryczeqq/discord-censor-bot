@@ -28,6 +28,19 @@ def loadConfig(*configs):
                 output.append(None)
     return output
 
+def saveConfig(*configs):
+    data = open("config.txt").readlines()
+    for config in configs:
+        configSaved = False
+        for i in range(len(data)):
+            seperator = data[i].index("=")
+            if data[i][:seperator] == config[0]:
+                data[i] = config[0] + "=" + config[1] + "\n"
+                configSaved = True
+        if not configSaved:
+            data.append(config[0] + "=" + config[1] + "\n")
+    open("config.txt", "w").write("".join(data))
+
 @client.event
 async def on_message(message):
     if message.content.startswith(prefix):
