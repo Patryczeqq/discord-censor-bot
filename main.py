@@ -49,7 +49,7 @@ async def on_message(message):
             prefix = command[1]
             saveConfig(("prefix", prefix))
         else:
-            await message.channel.send("Command detected: " + message.content[len(prefix):])
+            await message.channel.send("Command detected: " + command[0])
     elif re.match("what (is the )?time (is it)?\??",message.content.lower()):
         time = localtime()
         await message.channel.send(f"The current time is {time[3]}:{time[4]}:{time[5]}")
