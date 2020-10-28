@@ -1,6 +1,7 @@
 import discord
 import os
 import re
+import requests
 from time import localtime
 
 client = discord.Client()
@@ -79,6 +80,33 @@ async def on_message(message):
                 await message.channel.send("Error: " + command[1] + " is not banned")
         elif command[0] == "bannedwords":
             await message.channel.send("Banned words are:\n`" + "`\n`".join(bannedWords) + "`")
+        elif command[0] == "dbd":
+            if len(command) == 1:
+                await message.channel.send(
+'''DBD COMMAND LIST
+`randsurv`/`randkill`: Generates a random build
+`perktypes`: lists all valid perk types
+`perktype <type>`: lists all perks of that type
+`shrine`: shows what is in the current shrine
+`playercount`: number of players currently in-game
+''')
+            elif command[1].startswith("rand"):
+                reqType = {"surv":"survivor", "kill":"killer"}[command[1][-4:]] 
+                await message.channel.send(requests.get(f"https://dbd.onteh.net.au/api/randomperks?role={reqType}&pretty").text)
+            elif command[1] == "perktypes":
+                perks = requests.get("https://dbd.onteh.net.au/api/perks").json()
+                categories = set()
+                for perkID in perks:
+                    print(perks[perkID])
+                    categories.update(perks[perkID]["categories"])
+                await message.channel.send(", ".join(categories))
+            elif command[1] == "perktype":
+                perks = requests.get("https://dbd.onteh.net.au/api/perks").json()
+                await message.channel.send(", ".join([perks[perkID]["name"] for perkID in perks if command[2] in perks[perkID]["categories"]]))
+            elif command[1] == "playercount":
+                await message.channel.send(requests.get("https://dbd.onteh.net.au/api/playercount?pretty").text)
+            elif command[1] == "shrine":
+                await message.channel.send(requests.get("https://dbd.onteh.net.au/api/shrine?pretty").text)
         else:
             await message.channel.send("Command detected: " + command[0])
     elif re.match("what (is the )?time( is it)?\??",message.content.lower()):
